@@ -13,6 +13,7 @@ export default defineConfig({
     css: true,
     reporters: ['verbose'],
     coverage: {
+      provider: 'istanbul',
       reporter: ['text', 'json', 'html'],
       include: ['src/**/*'],
       exclude: [],
