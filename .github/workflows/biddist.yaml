@@ -4,6 +4,11 @@ jobs:
   build_backend:
     env:
       work_dir: ./biddist_backend
+      MAILGUN: ${{secrets.MAILGUN}}
+      MAILGUN_DOMAIN: ${{secrets.MAILGUN_DOMAIN}}
+      FRONTEND_DOMAIN: ${{secrets.FRONTEND_DOMAIN}}
+      STRIPE: ${{secrets.STRIPE}}
+      DB_CONN: ${{secrets.DB_CONN}}
     runs-on: ubuntu-latest
     strategy:
       matrix:
