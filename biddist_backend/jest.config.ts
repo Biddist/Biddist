@@ -1,8 +1,10 @@
-module.exports = {
+export default {
     preset: 'ts-jest',
     testEnvironment: 'node',
     transform: {
       '^.+\\.(ts|tsx)?$': 'ts-jest',
     },
+    setupFiles: ['./setup.ts'],
+    testPathIgnorePatterns: ['./dist'],
   };
   

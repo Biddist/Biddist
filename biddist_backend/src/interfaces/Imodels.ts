@@ -1,11 +1,13 @@
 import mongoose from 'mongoose';
 interface IBid {
+    _id: mongoose.Types.ObjectId;
     Item: mongoose.Types.ObjectId,
     Bidder: mongoose.Types.ObjectId;
     Money: Number,
-
+    PaymentMethodId: String,
 }
 interface IItem{
+    _id: mongoose.Types.ObjectId;
     StartDate: Date,
     EndDate: Date,
     Seller: mongoose.Types.ObjectId,
@@ -15,11 +17,12 @@ interface IItem{
 
 }
 interface IAccount{
-    Username: String,
+    _id: mongoose.Types.ObjectId;
+    Username: Boolean,
     Password: String,
     Email: String,
-    PaymentId: String,
-    ShippingAddress: String
+    ShippingAddress: String,
+    Activated: Boolean,
 
 }
 export type {IBid,IItem,IAccount};

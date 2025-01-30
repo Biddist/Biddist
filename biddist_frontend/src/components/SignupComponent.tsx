@@ -1,40 +1,40 @@
-import * as cardValidator from 'card-validator'
-import {Fieldset,PasswordInput,TextInput,Stack, PinInput,Group,Button} from '@mantine/core'
-import { useState } from 'react'
-import React from 'react'
-import { PaymentElement } from '@stripe/react-stripe-js'
-import { cardNumber, CardNumberVerification } from 'card-validator/dist/card-number'
+import {Fieldset, PasswordInput, TextInput, Stack, PinInput, Group, Button, Menu, Blockquote} from '@mantine/core'
+import React, { useState } from 'react'
+import {PaymentElement, useStripe} from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
-import {Elements} from '@stripe/react-stripe-js';
-const SignupComponent:React.FC = ()=>{
-    const [password,setPassword] = useState<string>("");
-    const [email,setEmail] = useState<string>("");
-    const [username,setUsername] = useState<string>("");
-    const [sent,setSent] = useState<boolean>(false);
-    const [cvc,setCVC] = useState<number>();
-    const stripePromise = loadStripe('pk_test_51PvQOaJzCaqZwM4cWS2KppLXPg4CKP4cIEWgI9Zkf7r1ULqCg2zDLuA2w0z6LDZmYWRQvgvuCaxKZK5blJnMyw0e00laqqoh6f');
+import {Elements,useElements} from '@stripe/react-stripe-js';
+import {useForm} from "@mantine/form"
+import Label = Menu.Label;
+
+const SignupComponent: React.FC = ()=>{
+    const form = useForm({
+        mode: 'controlled',
+        initialValues: {
+            email: '',
+            password: '',
+            password_confirmation: '',
+            username: '',
+            shipping_address: ''
+        }
+    })
+    const [submittedValues, setSubmittedValues] = useState<typeof form.values | null>(null);
     return(
-        <Elements stripe={stripePromise} options={{
-            mode: "setup",
-            currency: 'usd'
-        }}>
+            <form onSubmit = {async(event)=>{
+                event.preventDefault();
+                form.onSubmit(setSubmittedValues);
+            }}>
         <Stack>
+            <Blockquote>By Signing up, you consent to be emailed for authentication purposes.</Blockquote>
         <Fieldset legend="Profile Info">
-            <TextInput  label="Email" onChange={(event) => setEmail(event.currentTarget.value)} required={true}/>
-            <TextInput defaultValue="" label="Username" onChange={(event) => setUsername(event.currentTarget.value)} required={true}/>
-            <PasswordInput defaultValue="" label="Password" onChange={(event) => setPassword(event.currentTarget.value)} required={true}/>
-            <PinInput inputMode="numeric" disabled={!sent}/>
+            <TextInput placeholder={"Enter your Email"} label={"Email"} {...form.getInputProps('email')} required={true}/>
+            <TextInput  placeholder={"Enter your Username"} label="Username" {...form.getInputProps('username')} required={true}/>
+            <PasswordInput placeholder={"Enter a strong password"} label="Password" {...form.getInputProps('password')} required={true}/>
+            <PasswordInput placeholder={"Re-enter password"} label="Confirm password" {...form.getInputProps('password_confirmation')} required={true}/>
+            <TextInput placeholder={"Enter Shipping Address"} label={"Shipping Address"} {...form.getInputProps('shipping_address')} required={true}/>
+            <Button type="submit">Signup</Button>
         </Fieldset>
-        <Fieldset legend = "Payment Info">
-            <PaymentElement/>
-        </Fieldset>
-        <Group>
-            <Button variant="default" onClick={()=>setSent(true)}>
-                Email One Time Code
-            </Button>
-        </Group>
         </Stack>
-        </Elements>
+            </form>
     )
 }
 export default SignupComponent

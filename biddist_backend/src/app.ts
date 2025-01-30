@@ -1,16 +1,13 @@
-import https from 'https'
 import express from 'express';
 import session from 'express-session'
 import {randomBytes} from 'crypto'
 import cors from 'cors'
-import { MongoDBStore } from 'connect-mongodb-session';
-import { GetParametersCommand, SSMClient } from '@aws-sdk/client-ssm';
-import {init} from 'greenlock-express'
-import paramStore from './paramManager';
-await paramStore.setAllParams();
-import { createCertificate } from 'pem';
-let params = paramStore.params;
-
+import connectMongo from 'connect-mongodb-session';
+import paramStore from "./paramManager.js";
+import mongoose from "mongoose";
+let params = await paramStore.getAllParams();
+await mongoose.connect(params.db_conn);
+const MongoDBStore = connectMongo(session);
 const sessionStore = new MongoDBStore({
     uri: params.db_conn,
     collection: 'user_sessions'
@@ -26,40 +23,12 @@ const express_session = session({
     },
     store: sessionStore
 })
-
 const app = express();
 const policy = cors({
     origin: params.frontend_domain,
 })
 app.use(policy);
 app.use(express_session);
-if(process.env.NODE_ENV == "production"){
-    init({
-        packageRoot: __dirname,
-        configDir: './greenlock.d',
-        maintainerEmail: params.maintainer,
-        cluster: true,
-    }).serve(app);
-}
-else{
-    let key: string;
-    let cert: any;
-    createCertificate({ days: 365, selfSigned: true }, (err, keys) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        else{
-            key = keys.serviceKey;
-            cert = keys.certificate;
-        }
-        const server = https.createServer({
-            key: key,
-            cert: cert,
-        },app);
-        server.listen(443, () => {
-            console.log('Server listening on https://localhost:443');
-          });
-           
-    })
-}
+app.listen(8000,()=>{
+    console.log('Server started on port 8080')
+})

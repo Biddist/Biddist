@@ -1,6 +1,14 @@
 import paramStore from "../src/paramManager"
-test('check to see param intialization',()=>{
-    paramStore.setAllParams().then(()=>{
-        expect(paramStore.params.frontend_domain).toBe('http://localhost:3000')
-    });
+test('check to see param initialization',async ()=>{
+    const params = await paramStore.getAllParams();
+    expect(params.mailgun_domain).toBeDefined();
+    expect(params.mailgun_domain.length).toBeGreaterThan(0);
+    expect(params.mailgun).toBeDefined();
+    expect(params.mailgun.length).toBeGreaterThan(0);
+    expect(params.db_conn).toBeDefined();
+    expect(params.db_conn.length).toBeGreaterThan(0)
+    expect(params.stripe).toBeDefined();
+    expect(params.stripe.length).toBeGreaterThan(0);
+    expect(params.frontend_domain).toBeDefined();
+    expect(params.frontend_domain.length).toBeGreaterThan(0);
 })
