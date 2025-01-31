@@ -5,7 +5,7 @@
   "main": "dist/app.ts",
   "type": "module",
   "scripts": {
-    "test": "NODE_ENV=test jest",
+    "test": "NODE_ENV=test jest --runInBand",
     "compile": "rimraf dist && tsc",
     "dev": "tsc-watch --onSuccess node dist/app.js",
     "start": "NODE_ENV=development node --env-file=.env dist/src/app.js ",
@@ -19,6 +19,7 @@
     "@types/connect-mongodb-session": "^2.4.7",
     "@types/cors": "^2.8.17",
     "@types/mongoose": "^5.11.96",
+    "@types/wtfnode": "^0.7.3",
     "bcrypt": "^5.1.1",
     "connect-mongodb-session": "^5.0.0",
     "cors": "^2.8.5",
@@ -26,17 +27,20 @@
     "express-session": "^1.18.1",
     "form-data": "^4.0.1",
     "greenlock-express": "^4.0.3",
+    "localtunnel": "^2.0.2",
     "mailgun.js": "^10.3.0",
     "mongoose": "8.9.5",
     "rifraf": "^2.0.3",
     "speakeasy": "^2.0.0",
-    "stripe": "^17.5.0"
+    "stripe": "^17.5.0",
+    "wtfnode": "^0.10.0"
   },
   "devDependencies": {
     "@stripe/stripe-js": "^5.5.0",
     "@types/express": "^5.0.0",
     "@types/express-session": "^1.18.1",
     "@types/jest": "^29.5.14",
+    "@types/localtunnel": "^2.0.4",
     "@types/mailgun-js": "^0.22.18",
     "@types/node": "^22.10.2",
     "@types/speakeasy": "^2.0.10",

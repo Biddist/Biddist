@@ -1,6 +1,4 @@
-import {Session, SessionData} from 'express-session'
-import { IncomingMessage } from 'http';
-import { GeneratedSecret } from 'speakeasy';
+import {SessionData} from 'express-session'
 import mongoose from "mongoose";
 declare module "express-session"{
     /**

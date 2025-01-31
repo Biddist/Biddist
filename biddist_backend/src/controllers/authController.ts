@@ -1,11 +1,9 @@
-import {Request, Response, Router} from "express";
+import {Request, Response} from "express";
 import {generateSecret, totp} from 'speakeasy'
 import {Services} from "../services";
-import paramStore from "../paramManager";
 import Account from "../models/accountSchema";
 import {IAccount} from "../interfaces/Imodels";
 import {compare,hashSync} from "bcrypt";
-import stripe from "@stripe/stripe-js";
 /**
  * Checks the first stage of login (username/email and password). If successful,
  * email will be added to session data and One Time Password

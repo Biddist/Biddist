@@ -1,5 +1,4 @@
 import {Services} from "../src/services";
-import paramStore from "../src/paramManager";
 test("check to see if singletons are initialized properly. Requires env file!", async ()=>{
     const mailgun = await Services.getMailgun();
     const mailgun2 = await Services.getMailgun();
