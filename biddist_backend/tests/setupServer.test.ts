@@ -10,9 +10,9 @@ beforeAll((done) => {
         server = app.listen(8080,done);
     });
 },8000)
-afterAll(async() => {
+afterAll((done) => {
     server.unref();
-    server.close();
+    server.close(done);
 },8000)
 describe("Server tests", () => {
     test("Standard server health check", async () => {
