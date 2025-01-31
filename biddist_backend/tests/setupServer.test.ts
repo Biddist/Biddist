@@ -14,7 +14,6 @@ beforeAll((done) => {
 },8000)
 afterAll(async() => {
     await mongoose.disconnect();
-    const mg = await Services.getMailgun();
     server.unref();
     server.close();
 },8000)
