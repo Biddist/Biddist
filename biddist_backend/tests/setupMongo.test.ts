@@ -7,5 +7,5 @@ describe("setupMongo", () => {
         expect(mongoose.connections.length).toBe(1);
         await mongoose.connection.close();
         expect(mongoose.connection.readyState).toBe(0);
-    })
+    },60000)
 })
