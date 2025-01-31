@@ -1,7 +1,6 @@
 import {setupServer} from "../src/setupServer";
 import {Server} from "node:net";
 import {Express} from "express";
-import mongoose from "mongoose";
 let server: Server;
 let app: Express;
 beforeAll((done) => {
@@ -11,8 +10,11 @@ beforeAll((done) => {
     });
 },8000)
 afterAll((done) => {
-    server.unref();
+    while(!server) {
+
+    }
     server.close(done);
+    server.unref();
 },8000)
 describe("Server tests", () => {
     test("Standard server health check", async () => {
