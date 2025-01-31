@@ -10,9 +10,6 @@ beforeAll((done) => {
     });
 },8000)
 afterAll((done) => {
-    while(!server) {
-
-    }
     server.close(done);
     server.unref();
 },8000)
