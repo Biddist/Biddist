@@ -1,6 +1,9 @@
+import {Server} from "http";
 import {setupServer} from "../src/setupServer";
-import {Server} from "node:net";
 import {Express} from "express";
+import mongoose from "mongoose";
+import {Services} from "../src/services";
+
 let server: Server;
 let app: Express;
 beforeAll((done) => {
@@ -9,10 +12,11 @@ beforeAll((done) => {
         server = app.listen(8080,done);
     });
 },8000)
-afterAll((done) => {
-    console.log(server);
-    server.close(done);
+afterAll(async() => {
+    await mongoose.disconnect();
+    const mg = await Services.getMailgun();
     server.unref();
+    server.close();
 },8000)
 describe("Server tests", () => {
     test("Standard server health check", async () => {
