@@ -10,6 +10,7 @@ beforeAll((done) => {
     });
 },8000)
 afterAll((done) => {
+    console.log(server);
     server.close(done);
     server.unref();
 },8000)
