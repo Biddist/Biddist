@@ -1,15 +1,16 @@
 import express, {Express} from "express";
-import paramStore from "./paramManager";
+import paramStore from "../paramManager";
 import mongoose from "mongoose";
 import connectMongo from "connect-mongodb-session";
 import session from "express-session";
 import {randomBytes} from "crypto";
 import cors from "cors";
-import statusRouter from "./routes/statusRouter";
+import statusRouter from "../routes/statusRouter";
+import setupMongo from "./setupMongo";
 async function setupServer(): Promise<Express>{
     const app = express();
     let params = await paramStore.getAllParams();
-    const connection = await mongoose.connect(params.db_conn);
+    const connection = await setupMongo();
     const MongoDBStore = connectMongo(session);
     const sessionStore = new MongoDBStore({
         uri: params.db_conn,
