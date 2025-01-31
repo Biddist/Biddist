@@ -6,6 +6,6 @@ export default {
     },
     setupFiles: ['./setup.ts'],
     testPathIgnorePatterns: ['./dist'],
-    maxWorkers: 5,
+    maxWorkers: 1,
   };
   
