@@ -1,6 +1,5 @@
 import express, {Express} from "express";
 import paramStore from "../paramManager";
-import mongoose from "mongoose";
 import connectMongo from "connect-mongodb-session";
 import session from "express-session";
 import {randomBytes} from "crypto";

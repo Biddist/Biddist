@@ -1,7 +1,3 @@
-import wt = require("wtfnode");
-import {Server} from "http";
-import {setupServer} from "../src/initialization/setupServer";
-import {Express} from "express";
 import mongoose from "mongoose";
 import setupMongo from "../src/initialization/setupMongo";
 
