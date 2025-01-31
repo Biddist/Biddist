@@ -11,7 +11,6 @@ beforeAll((done) => {
     });
 },8000)
 afterAll(async() => {
-    await mongoose.connection.close();
     server.unref();
     server.close();
 },8000)
