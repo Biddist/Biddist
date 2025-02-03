@@ -21,12 +21,14 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 'latest'
-      - name: terraform_commands
+      - name: terraform_init_commands
         run: |
           terraform init
           terraform fmt -check
-          terraform plan -input=false
-          terraform apply -auto-approve -input=false
+      - name: terraform_plan
+        run: terraform plan -input=false
+      - name: terraform_apply
+        run: terraform apply -auto-approve -input=false
       - name: build
         run: |
           cd biddist_backend
