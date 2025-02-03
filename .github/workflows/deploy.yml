@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     name: aws_upload
     steps:
+      - uses: actions/checkout@v4
       - uses: aws-actions/configure-aws-credentials@v4
         name: get_credentials
         with:
