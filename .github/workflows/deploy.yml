@@ -31,8 +31,10 @@ jobs:
       - name: build
         run: |
           cd biddist_backend
+          npm run ci
           npm run build
           cd ../biddist_frontend
+          npm run ci
           npm run build
       - name: sync_backend_files
         working-directory: ./biddist_backend
