@@ -1,0 +1,43 @@
+name: deploy.yml
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  aws_upload:
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+    name: aws_upload
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        name: get_credentials
+        with:
+          aws-region: 'us-east-2'
+          role-to-assume: ${{secrets.AWS_ROLE}}
+      - name: terraform_setup
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 'latest'
+      - name: terraform_commands
+        run: |
+          terraform init
+          terraform fmt -check
+          terraform plan -input=false
+          terraform apply -auto-approve -input=false
+      - name: build
+        run: |
+          cd biddist_backend
+          npm run build
+          cd ../biddist_frontend
+          npm run build
+      - name: sync_backend_files
+        working-directory: ./biddist_backend
+        run: |
+          aws s3 sync dist s3://biddist-backend --delete
+      - name: sync_frontend_files
+        working-directory: ./biddist_frontend
+        run:
+          aws s3 sync dist s3://biddist-frontend --delete

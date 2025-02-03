@@ -9,7 +9,7 @@
     "compile": "rimraf dist && tsc",
     "dev": "tsc-watch --onSuccess node dist/app.js",
     "start": "NODE_ENV=development node --env-file=.env dist/src/app.js ",
-    "prepare": "husky"
+    "prepare": "cd .. && husky ./biddist_backend"
   },
   "author": "",
   "license": "ISC",
