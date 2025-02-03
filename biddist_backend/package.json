@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "NODE_ENV=test jest",
-    "compile": "rimraf dist && tsc",
+    "build": "rimraf dist && tsc",
     "dev": "tsc-watch --onSuccess node dist/app.js",
     "start": "NODE_ENV=development node --env-file=.env dist/src/app.js ",
     "prepare": "cd .. && husky ./biddist_backend"
