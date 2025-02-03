@@ -22,10 +22,10 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 'latest'
-      - name: terraform_init_commands
-        run: |
-          terraform init
-          terraform fmt -check
+      - name: terraform_init
+        run: terraform init
+      - name: terraform_fmt
+        run: terraform fmt -check
       - name: terraform_plan
         run: terraform plan -input=false
       - name: terraform_apply
