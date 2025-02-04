@@ -1,2 +1,2 @@
-echo "hook is running"
+exit 1
 cd biddist_backend && npm test
