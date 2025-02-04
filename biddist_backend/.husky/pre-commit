@@ -1,2 +1,2 @@
-exit 1
 cd biddist_backend && npm test
+exit 1
