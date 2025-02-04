@@ -30,7 +30,7 @@
     "serve": "vite preview",
     "test": "vitest",
     "test:coverage": "vitest run --coverage --watch=false",
-    "prepare": "cd .. && husky ./biddist_frontend"
+    "prepare": "GIT_DIR=.. husky"
   },
   "eslintConfig": {
     "extends": [
