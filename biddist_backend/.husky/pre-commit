@@ -1,1 +1,1 @@
-npm test
+cd biddist_backend && npm test
