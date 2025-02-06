@@ -2,7 +2,7 @@ name: Biddist_CI
 on:
   push:
     branches:
-      - '**'
+      - '*'
 jobs:
   build_backend:
     env:
