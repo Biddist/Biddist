@@ -3,7 +3,6 @@ on: [push]
 jobs:
   build_backend:
     env:
-      work_dir: ./biddist_backend
       MAILGUN: ${{secrets.MAILGUN}}
       MAILGUN_DOMAIN: ${{secrets.MAILGUN_DOMAIN}}
       FRONTEND_DOMAIN: ${{secrets.FRONTEND_DOMAIN}}
@@ -16,7 +15,6 @@ jobs:
         shard: [1, 2]
     container: ${{matrix.node}}
     steps:
-      - uses: actions/checkout@v4
       - run: npm ci
         working-directory: ./biddist_backend
       - run: npm test --shard=${{matrix.shard}}/2
@@ -30,7 +28,6 @@ jobs:
         node: [node:latest, node:lts-bookworm-slim, node:lts-bullseye-slim]
     container: ${{matrix.node}}
     steps:
-      - uses: actions/checkout@v4
       - run: npm ci
         working-directory: ./biddist_frontend
       - run: npm test
