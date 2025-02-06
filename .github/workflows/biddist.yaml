@@ -2,7 +2,7 @@ name: Biddist_CI
 on:
   push:
     branches:
-      - '*'
+      - '**'
 jobs:
   build_backend:
     env:
@@ -14,10 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [node:latest, node:lts-bookworm-slim, node:lts-bullseye-slim]
+        node: [latest, lts-bookworm-slim lts-bullseye-slim]
         shard: [1, 2]
-    container: ${{matrix.node}}
+    container: node:${{matrix.node}}
     steps:
+      - uses: actions/checkout@v4
       - run: npm ci
         working-directory: ./biddist_backend
       - run: npm test --shard=${{matrix.shard}}/2
@@ -28,9 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [node:latest, node:lts-bookworm-slim, node:lts-bullseye-slim]
-    container: ${{matrix.node}}
+        node: [latest, lts-bookworm-slim, lts-bullseye-slim]
+    container: node:${{matrix.node}}
     steps:
+      - uses: actions/checkout@v4
       - run: npm ci
         working-directory: ./biddist_frontend
       - run: npm test
