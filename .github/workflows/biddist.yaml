@@ -18,14 +18,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: npm ci
-        working-directory: ${{env.work_dir}}
+        working-directory: ./biddist_backend
       - run: npm test --shard=${{matrix.shard}}/2
-        working-directory: ${{env.work_dir}}
+        working-directory: ./biddist_backend
       - run: npm run build --if-present
-        working-directory: ${{env.work_dir}}
+        working-directory: ./biddist_backend
   build_frontend:
-    env:
-      work_dir: ./biddist_frontend
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -34,8 +32,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: npm ci
-        working-directory: ${{env.work_dir}}
+        working-directory: ./biddist_frontend
       - run: npm test
-        working-directory: ${{env.work_dir}}
+        working-directory: ./biddist_frontend
       - run: npm run build --if-present
-        working-directory: ${{env.work_dir}}
+        working-directory: ./biddist_frontend
