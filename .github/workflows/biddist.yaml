@@ -1,5 +1,8 @@
 name: Biddist_CI
-on: [push]
+on:
+  push:
+    branches:
+      - '**'
 jobs:
   build_backend:
     env:
