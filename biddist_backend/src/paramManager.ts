@@ -21,7 +21,7 @@ class paramStore{
             }
             if (process.env.NODE_ENV == 'production') {
                 const ssm = new SSMClient({region: "us-east-2"});
-                const query = new GetParametersCommand({Names: ["DB_CONN", "DOMAIN", "STRIPE_KEY", "EMAIL,EMAIL_PASSWORD"]});
+                const query = new GetParametersCommand({Names: ["db_conn", "mailgun","mailgun_domain", "stripe", "frontend_domain"]});
                 const result = (await ssm.send(query));
                 for (let param of result.Parameters) {
                     paramStore.params[param.Name] = param.Value;

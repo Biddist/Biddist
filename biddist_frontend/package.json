@@ -29,8 +29,9 @@
     "build": "tsc && vite build",
     "serve": "vite preview",
     "test": "vitest",
+    "pre_commit_test": "vitest run",
     "test:coverage": "vitest run --coverage --watch=false",
-    "prepare": "cd .. && husky ./biddist_frontend"
+    "prepare": "cd .. && husky biddist_frontend/.husky"
   },
   "eslintConfig": {
     "extends": [
