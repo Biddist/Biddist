@@ -40,10 +40,11 @@ jobs:
         working-directory: ./biddist_backend
         run: npm run production_test
       - name: build_and_push_image
-        working-directory: ./biddist_backend
+        working-directory: .
         run: |
           url=$(terraform output ecr_url)
-          docker build -t biddist/backend:latest -t $url .
+          echo $url
+          docker build -t biddist/backend:latest -t $url ./biddist_backend
           docker push $url
       - name: sync_backend_files
         working-directory: ./biddist_backend
