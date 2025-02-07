@@ -9,7 +9,5 @@ RUN npm run build
 FROM node:lts-bookworm-slim
 WORKDIR /app
 COPY --from=builder /app/dist ./dist
-COPY package*.json ./
-RUN npm install --omit=dev
 EXPOSE 8080
 CMD ["npm", "run", "production"]
