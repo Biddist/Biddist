@@ -21,13 +21,14 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 'latest'
+          terraform_wrapper: 'false'
       - name: terraform_init
         run: terraform init
       - name: terraform_plan
         run: terraform plan -input=false
       - name: terraform_apply
         run: terraform apply -auto-approve -input=false
-      - name: build
+      - name: build_javascript
         run: |
           cd biddist_backend
           npm ci
@@ -35,6 +36,14 @@ jobs:
           cd ../biddist_frontend
           npm ci
           npm run build
+      - name: production_test
+        working-directory: ./biddist_backend
+        run: npm run production_test
+      - name: build_and_push_image
+        working-directory: ./biddist_backend
+        run: |
+          docker build . -t biddist/backend:latest -t ${{steps.terraform_apply.outputs.ecr_url}}
+          docker push ${{steps.terraform_apply.outputs.ecr_url}
       - name: sync_backend_files
         working-directory: ./biddist_backend
         run: |
