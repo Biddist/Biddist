@@ -43,6 +43,7 @@ jobs:
         working-directory: ./biddist_backend
         run: |
           url=$(terraform output ecr_url)
+          echo $url
           docker build -t biddist/backend:latest -t $url .
           docker push $url
       - name: sync_backend_files
