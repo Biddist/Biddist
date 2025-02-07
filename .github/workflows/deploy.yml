@@ -42,7 +42,7 @@ jobs:
       - name: build_and_push_image
         working-directory: .
         run: |
-          url=$(terraform output ecr_url)
+          url=$(terraform output -raw ecr_url)
           docker build -t biddist/backend:latest -t $url ./biddist_backend
           docker push $url
       - name: sync_backend_files
