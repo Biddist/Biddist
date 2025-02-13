@@ -50,5 +50,4 @@ bidSchema.methods.payBid = async function(paymentMethodId: string): Promise<bool
     }
 }
 const Bid = mongoose.model("Bid",bidSchema);
-export default Bid;
-export type {IBid};
+export  {Bid};
