@@ -1,4 +1,4 @@
-import { render } from '../render';
+import { render } from '../../render';
 import {screen} from '@testing-library/react';
 import SignupComponent from "./SignupComponent";
 describe('SignupComponent', () => {

@@ -6,7 +6,7 @@ declare module "express-session"{
      * @prop secret is the secret being used to generate one time passwords
      * @prop email is the email the session is attempting to authenticate
      * @prop accountId is the database object id of the account, added to session after authentication
-     * @prop hasUnpaidBids is the number of winning bids the account hasn't paid yet..
+     * @prop unpaidBids is the number of winning bids the account hasn't paid yet..
      */
     interface SessionData {
         accountId?: mongoose.Types.ObjectId;

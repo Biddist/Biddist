@@ -1,9 +1,25 @@
 import {Request, Response} from "express";
 import {generateSecret, totp} from 'speakeasy'
 import {Services} from "../services";
-import Account from "../models/accountSchema";
+import {Account} from "../models/accountSchema";
 import {IAccount} from "../interfaces/Imodels";
 import {compare,hashSync} from "bcrypt";
+
+/**
+ * Gets the accountId of the current session.
+ * @param req
+ * @param res
+ */
+const getAuth = async (req: Request, res: Response) => {
+    if(req.session.accountId){
+        res.status(200).json({message:"You are logged in", accountId: req.session.accountId});
+        return;
+    }
+    else{
+        res.status(401).json({message:"Not logged in"});
+        return;
+    }
+}
 /**
  * Checks the first stage of login (username/email and password). If successful,
  * email will be added to session data and One Time Password
@@ -114,4 +130,4 @@ const postOTPSignup = async (req: Request, res: Response) => {
         res.status(201).json({"Message":"Successfully activated Account."});
     }
 }
-export {postOTP, postInitLogin, postOTPLogin,postOTPSignup, postInitSignup}
+export {postOTP, postInitLogin, postOTPLogin,postOTPSignup, postInitSignup, getAuth}

@@ -16,7 +16,7 @@ const SignupComponent: React.FC = ()=>{
             username: '',
             shipping_address: ''
         }
-    })
+    });
     const [submittedValues, setSubmittedValues] = useState<typeof form.values | null>(null);
     return(
             <form onSubmit = {async(event)=>{
