@@ -1,5 +1,5 @@
 import {List, Tabs} from "@mantine/core";
-import {backendURL} from "../../FetchConfig";
+import {backendURL} from "../../FetchConfig.js";
 import React from "react";
 type BidProps = {
     accountId: string | null;

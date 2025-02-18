@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes} from 'react-router';
 import React, {useEffect, useState} from 'react';
 import {AppShell,Tabs} from '@mantine/core'
-import SignupComponent from './components/Signup/SignupComponent'
-import LoginComponent from './components/Login/LoginComponent';
-import {backendURL, getConfig} from "./FetchConfig";
-import BidComponent from "./components/Bids/BidComponent";
+import SignupComponent from './components/Signup/SignupComponent.js'
+import LoginComponent from './components/Login/LoginComponent.js';
+import {backendURL, getConfig} from "./FetchConfig.js";
+import BidComponent from "./components/Bids/BidComponent.js";
 
 function App() {
   const [accountId,setAccountId] =  useState<string | null>(null);
@@ -29,8 +29,8 @@ function App() {
             <Tabs.Tab value="first">{accountId ? "Bids" : "Login"}</Tabs.Tab>
             <Tabs.Tab value="second">{accountId ? "Items" : "Signup"}</Tabs.Tab>
           </Tabs.List>
-          <Tabs.Panel value="first">{accountId ? <LoginComponent/> : <BidComponent accountId={accountId} setAccountId={setAccountId}/>}</Tabs.Panel>
-          <Tabs.Panel value="second"><SignupComponent/></Tabs.Panel>
+          <Tabs.Panel value="first">{!accountId ? <LoginComponent/> : <BidComponent accountId={accountId} setAccountId={setAccountId}/>}</Tabs.Panel>
+          <Tabs.Panel value="second">{!accountId ? <SignupComponent/>: null}</Tabs.Panel>
         </Tabs>
       </AppShell.Main>
       <Routes>

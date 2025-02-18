@@ -1,6 +1,6 @@
 import { expect, vi,afterEach } from 'vitest';
 import { cleanup } from '@testing-library/react';
-import matchers from '@testing-library/jest-dom/matchers';
+import matchers from '@testing-library/jest-dom/matchers.js';
 const { getComputedStyle } = window;
 window.getComputedStyle = (elt) => getComputedStyle(elt);
 window.HTMLElement.prototype.scrollIntoView = () => {};
