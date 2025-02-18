@@ -61,7 +61,7 @@
     "@vitest/coverage-v8": "^2.1.8",
     "husky": "^9.1.7",
     "jsdom": "^25.0.1",
-    "typescript": "^5.7.2",
+    "typescript": "^5.7.3",
     "vite": "^5.0.0",
     "vitest": "^2.1.8"
   }
