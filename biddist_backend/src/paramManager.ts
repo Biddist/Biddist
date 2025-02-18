@@ -1,5 +1,5 @@
 import { GetParametersCommand, SSMClient } from "@aws-sdk/client-ssm";
-import { BiddistParams } from "./interfaces/Iserver";
+import { BiddistParams } from "./interfaces/Iserver.js";
 /**
  * Manages essential parameters such as database connection string, email domain, and credentials.
  */

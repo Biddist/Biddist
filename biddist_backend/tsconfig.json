@@ -1,13 +1,13 @@
 {
     "compilerOptions": {
-      "module": "ESNext",
+      "module": "nodenext",
       "esModuleInterop": true,
-      "target": "ESNext",
-      "moduleResolution": "node",
+      "target": "ES2024",
+      "allowSyntheticDefaultImports": true,
+      "moduleResolution": "nodenext",
       "sourceMap": true,
       "outDir": "./dist",
-      "rootDir": "./",
+      "rootDir": "./"
     },
-    "lib": ["ESNext"],
     "include": ["src/**/*.ts"]
   }

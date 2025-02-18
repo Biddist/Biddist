@@ -1,6 +1,6 @@
 import mongoose, {Schema} from 'mongoose'
-import {IBid} from '../interfaces/Imodels';
-import {Services} from "../services";
+import {IBid} from '../interfaces/Imodels.js';
+import {Services} from "../services.js";
 
 const bidSchema = new Schema<IBid>({
     Bidder: {

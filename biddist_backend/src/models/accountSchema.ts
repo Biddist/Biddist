@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import {IAccount} from '../interfaces/Imodels'
+import {IAccount} from '../interfaces/Imodels.js'
 const accountSchema = new Schema<IAccount>({
     Username: {
         type: String,

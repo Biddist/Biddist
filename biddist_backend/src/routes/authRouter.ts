@@ -6,9 +6,9 @@ import {
     postInitSignup,
     postOTPSignup,
     getAuth
-} from "../controllers/authController";
+} from "../controllers/authController.js";
 const authRouter = Router();
-authRouter.get("/", getAuth);
+authRouter.get("", getAuth);
 authRouter.post('/otp',postOTP);
 authRouter.post('/login',postInitLogin);
 authRouter.post('/otp_login',postOTPLogin);

@@ -1,8 +1,8 @@
 import {Request, Response} from "express";
 import {generateSecret, totp} from 'speakeasy'
-import {Services} from "../services";
-import {Account} from "../models/accountSchema";
-import {IAccount} from "../interfaces/Imodels";
+import {Services} from "../services.js";
+import {Account} from "../models/accountSchema.js";
+import {IAccount} from "../interfaces/Imodels.js";
 import {compare,hashSync} from "bcrypt";
 
 /**

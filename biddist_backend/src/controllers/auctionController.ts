@@ -1,7 +1,7 @@
-import {Bid} from "../models/bidSchema";
-import {IBid} from "../interfaces/Imodels";
-import {Item} from "../models/itemSchema";
-import {IItem} from "../interfaces/Imodels";
+import {Bid} from "../models/bidSchema.js";
+import {IBid} from "../interfaces/Imodels.js";
+import {Item} from "../models/itemSchema.js";
+import {IItem} from "../interfaces/Imodels.js";
 import {Request, Response} from "express";
 import {Readable} from "node:stream";
 
@@ -31,5 +31,6 @@ const getAccountBids = async (req: Request, res: Response) => {
     bidWatcher.on('change',next=>{
         bidStream.push(next.fullDocument);
     })
+    bidStream.pipe(res);
 }
 export {getAccountBids};

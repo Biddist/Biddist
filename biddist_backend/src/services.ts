@@ -1,11 +1,11 @@
-import Mailgun from "mailgun.js"
 import formData from "form-data"
-import paramStore from "./paramManager";
+import paramStore from "./paramManager.js";
 import Stripe from "stripe"
 import {IMailgunClient} from "mailgun.js/Interfaces";
+import {default as Mailgun} from "mailgun.js";
 class Services {
     private static stripe: Stripe;
-    private static MailgunFactory: Mailgun = new Mailgun(formData);
+    private static MailgunFactory =  new Mailgun.default(formData);
     private static mailgun: IMailgunClient;
     /**
      * Returns  (possibly initializing) Mailgun singleton client

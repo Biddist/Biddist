@@ -1,5 +1,5 @@
 import {Request, Response,NextFunction} from 'express';
-import {Bid} from "../models/bidSchema";
+import {Bid} from "../models/bidSchema.js";
 
 /**
  * Checks if the incoming request is logged in, refusing the request if it is not..

@@ -1,11 +1,13 @@
 import express, {Express} from "express";
-import paramStore from "../paramManager";
+import paramStore from "../paramManager.js";
 import connectMongo from "connect-mongodb-session";
 import session from "express-session";
 import {randomBytes} from "crypto";
 import cors from "cors";
-import statusRouter from "../routes/statusRouter";
-import setupMongo from "./setupMongo";
+import statusRouter from "../routes/statusRouter.js";
+import setupMongo from "./setupMongo.js";
+import {authRouter} from "../routes/authRouter.js";
+import {auctionRouter} from "../routes/auctionRouter.js";
 async function setupServer(): Promise<Express>{
     const app = express();
     let params = await paramStore.getAllParams();
@@ -32,6 +34,8 @@ async function setupServer(): Promise<Express>{
     app.use(policy);
     app.use(express_session);
     app.use("/status", statusRouter);
+    app.use("/auth",authRouter);
+    app.use("/auction", auctionRouter);
     return app;
 }
 export {setupServer};
