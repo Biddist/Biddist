@@ -12,7 +12,7 @@ class paramStore{
         else {
             if (process.env.NODE_ENV == 'test' || process.env.NODE_ENV == 'development') {
                 paramStore.params = {
-                    frontend_domain: 'http://localhost:3000',
+                    frontend_domain: /^http:\/\/localhost(:\d+)?$/,
                     db_conn: process.env.DB_CONN,
                     stripe: process.env.STRIPE,
                     mailgun: process.env.MAILGUN,

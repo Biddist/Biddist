@@ -12,6 +12,5 @@ describe('testing to see if program parameters like API keys are properly fetche
         expect(params.stripe).toBeDefined();
         expect(params.stripe.length).toBeGreaterThan(0);
         expect(params.frontend_domain).toBeDefined();
-        expect(params.frontend_domain.length).toBeGreaterThan(0);
     })
 });

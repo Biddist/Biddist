@@ -11,6 +11,10 @@ const accountSchema = new Schema<IAccount>({
         type: Boolean,
         default: false,
     },
+    Date_Created: {
+        type: Date,
+        default: new Date(),
+    },
     Email: {
         type: String,
         required: true,

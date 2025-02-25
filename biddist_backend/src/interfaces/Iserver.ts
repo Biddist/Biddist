@@ -10,10 +10,10 @@ declare module "express-session"{
      */
     interface SessionData {
         accountId?: mongoose.Types.ObjectId;
-        secret?: string;
-        otp?: string;
-        email?: string;
         unpaidBids?: number;
+        otp: string,
+        signup_otp: string,
+        secret: string
     }
 }
 
@@ -25,7 +25,7 @@ declare module "express-session"{
  * @prop mailgun_domain is the domain from which mailgun emails are sent
  */
 interface BiddistParams {
-    frontend_domain: string,
+    frontend_domain: string | boolean | string[] | RegExp,
     db_conn: string,
     stripe: string;
     mailgun: string;

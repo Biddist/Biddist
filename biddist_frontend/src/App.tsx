@@ -8,18 +8,6 @@ import BidComponent from "./components/Bids/BidComponent.js";
 
 function App() {
   const [accountId,setAccountId] =  useState<string | null>(null);
-  useEffect(() => {
-    const getAuth = async() =>{
-      const authResponse = await fetch(backendURL + '/auth');
-      if(authResponse.status == 200){
-        const data = await authResponse.json();
-        setAccountId(data.accountId);
-      }
-      else{
-        setAccountId(null);
-      }
-    }
-  }, []);
   return (
         <BrowserRouter>
     <AppShell padding='sm' header={{height: 60}} navbar={{width: {sm: 150, md: 225, lg: 300}, breakpoint: 'sm'}}>

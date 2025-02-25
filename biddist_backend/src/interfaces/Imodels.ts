@@ -35,6 +35,6 @@ interface IAccount{
     Email: String,
     ShippingAddress: String,
     Activated: Boolean,
-
+    Date_Created: Date,
 }
 export type {IBid,IItem,IAccount};
