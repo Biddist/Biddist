@@ -4,9 +4,7 @@ import {
     TextInput,
     Stack,
     PinInput,
-    Group,
     Button,
-    Menu,
     Blockquote,
     Alert
 } from '@mantine/core'
@@ -48,8 +46,15 @@ const SignupComponent: React.FC = ()=>{
                 form.onSubmit(setSubmittedValues);
                 const responseCode = await AuthAPIService.postInitSignup(form.values.username,form.values.password,form.values.email,form.values.shipping_address);
                 if(responseCode==201){
-                    setSent(true);
-                    setAlertText("Started Signup Process. Check your email for a One Time Password.");
+                    const otpResponseCode = await AuthAPIService.postSignupOTP(form.values.email,form.values.password);
+                    console.log("otp response:" + otpResponseCode);
+                    if(otpResponseCode==201){
+                        setSent(true);
+                        setAlertText("Started Signup Process. Check your email for a One Time Password.");
+                    }
+                    else{
+                        setAlertText("Server Error Fetching OTP.");
+                    }
                 }
                 else {
                     setSent(false);
@@ -62,20 +67,25 @@ const SignupComponent: React.FC = ()=>{
                 }
             }}>
             <Fieldset legend="Profile Info">
-            <TextInput placeholder={"Enter your Email"} label={"Email"} {...form.getInputProps('email')} required={true}/>
-            <TextInput  placeholder={"Enter your Username"} label="Username" {...form.getInputProps('username')} required={true}/>
-            <PasswordInput placeholder={"Enter a strong password"} label="Password" {...form.getInputProps('password')} required={true}/>
-            <PasswordInput placeholder={"Re-enter password"} label="Confirm password" {...form.getInputProps('password_confirmation')} required={true}/>
-            <TextInput placeholder={"Enter Shipping Address"} label={"Shipping Address"} {...form.getInputProps('shipping_address')} required={true}/>
-            <Button type="submit">Signup</Button>
+            <TextInput disabled={sent} placeholder={"Enter your Email"} label={"Email"} {...form.getInputProps('email')} required={true}/>
+            <TextInput disabled={sent} placeholder={"Enter your Username"} label="Username" {...form.getInputProps('username')} required={true}/>
+            <PasswordInput  disabled={sent} placeholder={"Enter a strong password"} label="Password" {...form.getInputProps('password')} required={true}/>
+            <PasswordInput disabled={sent} placeholder={"Re-enter password"} label="Confirm password" {...form.getInputProps('password_confirmation')} required={true}/>
+            <TextInput disabled={sent} placeholder={"Enter Shipping Address"} label={"Shipping Address"} {...form.getInputProps('shipping_address')} required={true}/>
+            <Button disabled={sent} type="submit">Signup</Button>
         </Fieldset>
             </form>
             <form onSubmit = {async(event)=>{
                 event.preventDefault();
-                form.onSubmit(setPin);
+                pinForm.onSubmit(setPin);
+                const responseCode =  await AuthAPIService.postFinishSignup(form.values.username,pinForm.values.pin);
+                if(responseCode==201){
+                    setAlertText("Account Created and Activated!");
+                }
             }}>
             <Fieldset legend = "confirmation">
-                <PinInput type="alphanumeric" disabled={!sent} {...pinForm.getInputProps('pin')} required={true}/>
+                <PinInput  length={6} type="alphanumeric" disabled={!sent} {...pinForm.getInputProps('pin')} required={true}/>
+                <Button disabled={!sent} type="submit">Signup</Button>
             </Fieldset>
         </form>
         </Stack>

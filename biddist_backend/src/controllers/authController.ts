@@ -1,9 +1,10 @@
 import {Request, Response} from "express";
-import {generateSecret, totp} from 'speakeasy'
+import speakeasy from 'speakeasy'
 import {Services} from "../services.js";
 import {Account} from "../models/accountSchema.js";
 import {IAccount} from "../interfaces/Imodels.js";
 import {compare,hashSync} from "bcrypt";
+import {log} from "node:util";
 
 /**
  * Gets the accountId of the current session.
@@ -28,26 +29,33 @@ const getAuth = async (req: Request, res: Response) => {
  */
 const postOTP = async (req: Request, res: Response) => {
     const user: IAccount = await Account.findOne({$or: [{Username: {$eq: req.body.user}},{Email: {$eq: req.body.user}}]}).exec();
-    if(user && user.Activated){
+    if(user){
         const userPassword = user.Password;
         if(await compare(req.body.password, userPassword.toString())){
             if(!req.session.secret){
-                req.session.secret = generateSecret().ascii;
+                req.session.secret = speakeasy.generateSecretASCII();
             }
             const secret = req.session.secret;
             if(req.body.intent == "login") {
-                req.session.otp = hashSync(totp({
-                    secret: secret,
-                    encoding: 'ascii'
-                }), 3);
+                if(user.Activated){
+                    const login_otp = speakeasy.totp({
+                        secret: secret,
+                    });
+                    req.session.otp = hashSync(login_otp,3)
+                    await Services.sendMessage(user.Email.toString(), `One time Password for login: ` + login_otp,`OTP for login attempt at ` + new Date().toString());
+                }
+                else{
+                    res.status(401).json({message:"Account cannot request login otp before activation."});
+                }
             }
             if(req.body.intent == "signup") {
-                req.session.signup_otp = hashSync(totp({
+                const signup_otp = speakeasy.totp({
                     secret: secret,
-                    encoding: 'ascii'
-                }), 5);
+                });
+                req.session.signup_otp = hashSync(signup_otp,5);
+                req.session.save();
+                await Services.sendMessage(user.Email.toString(), `One time Password for signup: ` + signup_otp,`OTP for signup attempt at ` + new Date().toString());
             }
-            await Services.sendMessage(req.body.email, `One time Password for ${req.body.intent}: ` + req.session.otp,`OTP for ${req.body.intent} attempt at ` + new Date().toString());
             res.status(201).json({"Message":"Successfully authenticated username/email and password."});
             return;
         }
@@ -70,6 +78,7 @@ const postOTPLogin = async (req: Request, res: Response) => {
         }
         req.session.accountId = user._id;
         req.session.otp = null;
+        req.session.save();
         res.status(201).json({"Message":"Successfully authenticated OTP."});
         return;
     }
@@ -114,15 +123,21 @@ const postSignup = async (req: Request, res: Response) => {
  * @param res
  */
 const postOTPSignup = async (req: Request, res: Response) => {
-    if(await compare(req.body.signup_otp, req.session.signup_otp)){
-        const user = await Account.findOne({$or: [{Username: {$eq: req.body.user}},{Email: {$eq: req.body.user}}]}).exec();
-        if(user.Activated){
-            res.status(409).json({"Message":"Email is already in use."});
-            return;
+    try {
+        if (await compare(req.body.signup_otp, req.session.signup_otp)) {
+            const user = await Account.findOne({$or: [{Username: {$eq: req.body.user}}, {Email: {$eq: req.body.user}}]}).exec();
+            if (user.Activated) {
+                res.status(409).json({"Message": "Email is already in use."});
+                return;
+            }
+            user.Activated = true;
+            await user.save();
+            res.status(201).json({"Message": "Successfully activated Account."});
         }
-        user.Activated = true;
-        await user.save();
-        res.status(201).json({"Message":"Successfully activated Account."});
+    }catch(err){
+        console.log(err);
+        console.log(req.body.signup_otp);
+        console.log(req.session.signup_otp);
     }
 }
 export {postOTP, postOTPLogin,postOTPSignup, postSignup, getAuth}

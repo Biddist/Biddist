@@ -1,15 +1,12 @@
-import { BrowserRouter, Routes} from 'react-router';
 import React, {useEffect, useState} from 'react';
 import {AppShell,Tabs} from '@mantine/core'
 import SignupComponent from './components/Signup/SignupComponent.js'
 import LoginComponent from './components/Login/LoginComponent.js';
-import {backendURL, getConfig} from "./FetchConfig.js";
 import BidComponent from "./components/Bids/BidComponent.js";
 
 function App() {
   const [accountId,setAccountId] =  useState<string | null>(null);
   return (
-        <BrowserRouter>
     <AppShell padding='sm' header={{height: 60}} navbar={{width: {sm: 150, md: 225, lg: 300}, breakpoint: 'sm'}}>
       <AppShell.Main>
         <Tabs defaultValue="first" orientation='vertical'>
@@ -21,10 +18,7 @@ function App() {
           <Tabs.Panel value="second">{!accountId ? <SignupComponent/>: null}</Tabs.Panel>
         </Tabs>
       </AppShell.Main>
-      <Routes>
-      </Routes>
     </AppShell>
-  </BrowserRouter>
 );
 }
 export default App;

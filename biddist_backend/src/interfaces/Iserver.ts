@@ -28,7 +28,6 @@ interface BiddistParams {
     frontend_domain: string | boolean | string[] | RegExp,
     db_conn: string,
     stripe: string;
-    mailgun: string;
-    mailgun_domain: string;
+    mailtrap: string;
 }
 export {SessionData,BiddistParams}
