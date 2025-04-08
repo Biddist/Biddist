@@ -16,7 +16,7 @@ function App() {
             <Tabs.Tab value="first">{accountId ? "Bids" : "Login"}</Tabs.Tab>
             <Tabs.Tab value="second">{accountId ? "Items" : "Signup"}</Tabs.Tab>
           </Tabs.List>
-          <Tabs.Panel value="first">{!accountId ? <LoginComponent setAccount={setAccountId}/> : <BidComponent accountId={accountId} setAccountId={setAccountId}/>}</Tabs.Panel>
+          <Tabs.Panel value="first">{!accountId ? <LoginComponent/> : <BidComponent accountId={accountId} setAccountId={setAccountId}/>}</Tabs.Panel>
           <Tabs.Panel value="second">{!accountId ? <SignupComponent/>: null}</Tabs.Panel>
         </Tabs>
       </AppShell.Main>

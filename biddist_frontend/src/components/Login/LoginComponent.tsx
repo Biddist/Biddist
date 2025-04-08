@@ -3,10 +3,7 @@ import { useState } from 'react'
 import React from 'react'
 import {useForm} from "@mantine/form";
 import {AuthAPIService} from "../../AuthAPIService.js";
-type LoginComponentProps = {
-    setAccount: React.Dispatch<React.SetStateAction<string | null>>
-}
-const LoginComponent:React.FC<LoginComponentProps> = (props)=>{
+const LoginComponent:React.FC = ()=>{
     const [sent, setSent] = useState(false)
     const form = useForm({
         mode: 'controlled',
