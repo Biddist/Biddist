@@ -22,8 +22,7 @@ declare module "express-session"{
  * @prop frontend_domain identifies the expected frontend domain for CORS purposes
  * @prop db_conn is the database connection string
  * @prop stripe is the stripe secret key
- * @prop mailgun is the mailgun API key
- * @prop mailgun_domain is the domain from which mailgun emails are sent
+ * @prop mailtrap is the mailtrap API key
  */
 interface BiddistParams {
     frontend_domain: string | boolean | string[] | RegExp,
