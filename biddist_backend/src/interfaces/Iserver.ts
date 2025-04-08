@@ -1,5 +1,5 @@
 import {SessionData} from 'express-session'
-import mongoose from "mongoose";
+import mongoose, {Schema} from "mongoose";
 declare module "express-session"{
     /**
      * @prop otp is the (hashed) One Time Password expected for login
@@ -10,6 +10,7 @@ declare module "express-session"{
      */
     interface SessionData {
         accountId?: mongoose.Types.ObjectId;
+        _id: string;
         unpaidBids?: number;
         otp: string,
         signup_otp: string,
@@ -30,4 +31,6 @@ interface BiddistParams {
     stripe: string;
     mailtrap: string;
 }
-export {SessionData,BiddistParams}
+const sessionSchema = new Schema({_id: String}, { strict: false });
+const SessionModel = mongoose.model('user_sessions',sessionSchema);
+export {SessionData,BiddistParams,SessionModel, sessionSchema};

@@ -3,16 +3,24 @@ import { useState } from 'react'
 import React from 'react'
 import {useForm} from "@mantine/form";
 import {AuthAPIService} from "../../AuthAPIService.js";
-const LoginComponent:React.FC = ()=>{
+type LoginComponentProps = {
+    setAccount: React.Dispatch<React.SetStateAction<string | null>>
+}
+const LoginComponent:React.FC<LoginComponentProps> = (props)=>{
     const [sent, setSent] = useState(false)
     const form = useForm({
         mode: 'controlled',
         initialValues: {
             email_or_username: '',
             password: '',
-            password_confirmation: '',
         }
     });
+    const otpForm = useForm({
+        mode: 'controlled',
+        initialValues: {
+            otp: ''
+        }
+    })
     const [submittedValues, setSubmittedValues] = useState<typeof form.values | null>(null);
     const [alertText, setAlertText] = useState("");
     return(
@@ -20,13 +28,12 @@ const LoginComponent:React.FC = ()=>{
             <form onSubmit={async(event)=> {
                 event.preventDefault();
                 form.onSubmit(setSubmittedValues);
-                const responseCode = await AuthAPIService.postInitSignup(form.values.username,form.values.password,form.values.email,form.values.shipping_address);
+                const responseCode = await AuthAPIService.postLoginOTP(form.values.email_or_username,form.values.password);
                 if(responseCode==201){
                     setSent(true);
-                    setAlertText("");
+                    setAlertText("One Time Password Has been sent!");
                 }
                 else {
-                    setSent(false);
                     if (responseCode == 401) {
                         setAlertText("Incorrect credentials.");
                     }
@@ -38,14 +45,18 @@ const LoginComponent:React.FC = ()=>{
         <Fieldset legend="Login">
             <TextInput placeholder={"Enter your email or username."} label={"Email/Username"} {...form.getInputProps('email')} required={true}/>
             <PasswordInput placeholder={"Enter your password"} label="Password" {...form.getInputProps('password')} required={true}/>
-            <PinInput type="alphanumeric" disabled={!sent}/>
         </Fieldset>
+                <Group>
+                    <Button type="submit" variant="default">
+                        Email One Time Code
+                    </Button>
+                </Group>
             </form>
-        <Group>
-            <Button type="button" variant="default">
-                Email One Time Code
-            </Button>
-        </Group>
+            <form onSubmit={async(event)=> {}}>
+                <Group>
+                    <PinInput type="alphanumeric" {...otpForm.getInputProps('otp')} disabled={!sent}/>
+                </Group>
+            </form>
         </Stack>
     )
 }

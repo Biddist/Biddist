@@ -8,10 +8,9 @@ import {
     Blockquote,
     Alert
 } from '@mantine/core'
-import React, {useEffect, useState} from 'react'
+import React, {SetStateAction, useEffect, useState} from 'react'
 import {useForm} from "@mantine/form"
 import {AuthAPIService} from '../../AuthAPIService.js'
-
 const SignupComponent: React.FC = ()=>{
     const [sent, setSent] = useState<boolean>(false);
     const [alertText, setAlertText] = useState<string>("Standby");
@@ -92,4 +91,4 @@ const SignupComponent: React.FC = ()=>{
 
     )
 }
-export default SignupComponent
+export default SignupComponent;

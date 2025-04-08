@@ -4,10 +4,10 @@ import {
     postOTPLogin,
     postSignup,
     postOTPSignup,
-    getAuth
+    getCheckAuth
 } from "../controllers/authController.js";
 const authRouter = Router();
-authRouter.get("", getAuth);
+authRouter.get("/check", getCheckAuth);
 authRouter.post('/otp',postOTP);
 authRouter.post('/otp_login',postOTPLogin);
 authRouter.post('/signup',postSignup);

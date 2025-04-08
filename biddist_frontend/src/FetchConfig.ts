@@ -1,4 +1,4 @@
-export const backendURL = import.meta.env.VITE_REACT_APP_BACKEND_URL || "http://localhost:8000";
+export const backendURL =  "http://biddist.org";
 export const getConfig: RequestInit = {
     method: 'GET',
     headers: {

@@ -11,26 +11,33 @@ import {Readable} from "node:stream";
  * @param res
  */
 const getAccountBids = async (req: Request, res: Response) => {
-    const bidWatcher = Bid.watch([{
-        $match: {
-            $and: [
-                {'fullDocument.Bidder': req.session.accountId},
-                {'operationType': {$in: ['insert','update']}}
-            ]
-        },
-    }],{fullDocument: 'updateLookup'});
-    const bidStream = new Readable();
-    const bids = await Bid.find({Bidder: req.session.accountId}).lean().exec();
-    for (const bid of bids) {
-        const item = await Item.findById(bid.Item).lean().exec();
-        if(item.Sealed){
-            delete bid.IsWinningBid;
+    try {
+
+        const bidWatcher = Bid.watch([{
+            $match: {
+                $and: [
+                    {'fullDocument.Bidder': req.session.accountId},
+                    {'operationType': {$in: ['insert', 'update']}}
+                ]
+            },
+        }], {fullDocument: 'updateLookup'});
+        const bidStream = new Readable();
+        const bids = await Bid.find({Bidder: req.session.accountId}).lean().exec();
+        for (const bid of bids) {
+            const item = await Item.findById(bid.Item).lean().exec();
+            if (item.Sealed) {
+                delete bid.IsWinningBid;
+            }
+            bidStream.push(bid);
         }
-        bidStream.push(bid);
+        bidWatcher.on('change', next => {
+            bidStream.push(next.fullDocument);
+        })
+        bidStream.pipe(res);
+    }catch(err) {
+        console.log(err);
+        res.status(500).json("Unknown Server Error");
+        return;
     }
-    bidWatcher.on('change',next=>{
-        bidStream.push(next.fullDocument);
-    })
-    bidStream.pipe(res);
 }
 export {getAccountBids};
