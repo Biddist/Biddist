@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
 import mongoose from 'mongoose';
-import Bid from './bidSchema'
-import { IItem } from "../interfaces/Imodels";
+import {Bid} from './bidSchema.js'
+import { IItem } from "../interfaces/Imodels.js";
 
 const itemSchema = new Schema<IItem>({
     Seller: {
@@ -53,3 +53,5 @@ itemSchema.methods.checkBid = async function(bidId: mongoose.Types.ObjectId){
         return false;
     }
 }
+const Item = mongoose.model("Item",itemSchema);
+export {Item};

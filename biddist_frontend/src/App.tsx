@@ -1,31 +1,26 @@
-import react from 'react';
-import { BrowserRouter, Route, Routes, Link, Router, NavLink } from 'react-router';
-import axios from 'axios'
-import React from 'react';
-import {AppShell, MantineProvider,Tabs} from '@mantine/core'
-import SignupComponent from './components/SignupComponent'
-import LoginComponent from './components/LoginComponent';
-axios.defaults.withCredentials = true;
+import React, {useEffect, useState} from 'react';
+import {AppShell,Tabs} from '@mantine/core'
+import SignupComponent from './components/Signup/SignupComponent.js'
+import LoginComponent from './components/Login/LoginComponent.js';
+import BidComponent from "./components/Bids/BidComponent.js";
+import {backendURL} from "./FetchConfig.js";
 
 function App() {
+  const [accountId,setAccountId] =  useState<string | null>(null);
+  const authSource = new EventSource(backendURL + "/auth/check");
   return (
-      <BrowserRouter>
-        <AppShell padding = 'sm' header={{height: 60}} navbar={{width: {sm: 150, md: 225, lg: 300}, breakpoint: 'sm'}}>
-          <AppShell.Main>
-          <Tabs defaultValue="first" orientation='vertical'>
-            <Tabs.List>
-              <Tabs.Tab value="first">Login</Tabs.Tab>
-              <Tabs.Tab value="second">Signup</Tabs.Tab>
-            </Tabs.List>
-            <Tabs.Panel value="first"><LoginComponent/></Tabs.Panel>
-            <Tabs.Panel value="second"><SignupComponent/></Tabs.Panel>
-          </Tabs>
-          </AppShell.Main>
-            <Routes>
-            </Routes>
-        </AppShell>
-      </BrowserRouter>
-  );
+    <AppShell padding='sm' header={{height: 60}} navbar={{width: {sm: 150, md: 225, lg: 300}, breakpoint: 'sm'}}>
+      <AppShell.Main>
+        <Tabs defaultValue="first" orientation='vertical'>
+          <Tabs.List>
+            <Tabs.Tab value="first">{accountId ? "Bids" : "Login"}</Tabs.Tab>
+            <Tabs.Tab value="second">{accountId ? "Items" : "Signup"}</Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Panel value="first">{!accountId ? <LoginComponent/> : <BidComponent accountId={accountId} setAccountId={setAccountId}/>}</Tabs.Panel>
+          <Tabs.Panel value="second">{!accountId ? <SignupComponent/>: null}</Tabs.Panel>
+        </Tabs>
+      </AppShell.Main>
+    </AppShell>
+);
 }
-
 export default App;

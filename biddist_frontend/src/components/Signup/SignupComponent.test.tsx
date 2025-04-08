@@ -1,6 +1,6 @@
-import { render } from '../render';
+import { render } from '../../render.js';
 import {screen} from '@testing-library/react';
-import SignupComponent from "./SignupComponent";
+import SignupComponent from "./SignupComponent.js";
 describe('SignupComponent', () => {
     render(<SignupComponent/>);
     it('Has warning', () => {

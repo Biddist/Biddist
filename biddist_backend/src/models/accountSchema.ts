@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import {IAccount} from '../interfaces/Imodels'
+import {IAccount} from '../interfaces/Imodels.js'
 const accountSchema = new Schema<IAccount>({
     Username: {
         type: String,
@@ -10,6 +10,10 @@ const accountSchema = new Schema<IAccount>({
     Activated: {
         type: Boolean,
         default: false,
+    },
+    Date_Created: {
+        type: Date,
+        default: new Date(),
     },
     Email: {
         type: String,
@@ -29,4 +33,4 @@ const accountSchema = new Schema<IAccount>({
     }
 })
 const Account = mongoose.model("Account", accountSchema);
-export default Account;
+export {Account};

@@ -1,11 +1,20 @@
 import mongoose from 'mongoose';
+
+/**
+ * Interface for simplifying interactions with Bid database objects
+ */
 interface IBid {
     _id: mongoose.Types.ObjectId;
     Item: mongoose.Types.ObjectId,
     Bidder: mongoose.Types.ObjectId;
     Money: Number,
-    PaymentMethodId: String,
+    Paid: Boolean,
+    IsWinningBid: Boolean,
+    payBid(paymentMethodId: string): Promise<boolean>,
 }
+/**
+ * Interface for simplifying interactions with Item database objects
+ */
 interface IItem{
     _id: mongoose.Types.ObjectId;
     StartDate: Date,
@@ -16,6 +25,9 @@ interface IItem{
     TopBid: mongoose.Types.ObjectId,
 
 }
+/**
+ * Interface for simplifying interactions with Account database objects
+ */
 interface IAccount{
     _id: mongoose.Types.ObjectId;
     Username: Boolean,
@@ -23,6 +35,6 @@ interface IAccount{
     Email: String,
     ShippingAddress: String,
     Activated: Boolean,
-
+    Date_Created: Date,
 }
 export type {IBid,IItem,IAccount};

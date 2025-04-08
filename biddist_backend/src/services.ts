@@ -1,42 +1,42 @@
-import Mailgun from "mailgun.js"
-import formData from "form-data"
-import paramStore from "./paramManager";
-import Stripe from "stripe"
-import {IMailgunClient} from "mailgun.js/Interfaces";
+import paramStore from "./paramManager.js";
+import Stripe from "stripe";
+import {MailtrapClient} from "mailtrap"
 class Services {
     private static stripe: Stripe;
-    private static MailgunFactory: Mailgun = new Mailgun(formData);
-    private static mailgun: IMailgunClient;
+    private static mailtrap = null;
     /**
-     * Returns  (possibly initializing) Mailgun singleton client
+     * Returns  (possibly initializing) Mailtrap singleton client
      */
-    public static getMailgun = async()=>{
-        if(Services.mailgun){
-            return Services.mailgun;
+    public static getMailtrap = async()=>{
+        if(Services.mailtrap != null){
+            return Services.mailtrap;
         }
         else {
             const params = await paramStore.getAllParams();
-            Services.mailgun = Services.MailgunFactory.client({
-                username: "api",
-                key: params.mailgun,
-            });
-            return Services.mailgun;
+            Services.mailtrap = new MailtrapClient({
+                token: params.mailtrap
+            })
+            return Services.mailtrap;
         }
     }
     /**
-     * Sends an email message using mailgun client. Meant for 2FA.
+     * Sends an email message using mailtrap client. Meant for 2FA.
      * @param email the email the message is sent to.
      * @param text the text of the message
      * @param subject the subject of the message.
      */
-    public static sendMessage = async (email: string,text: string, subject) => {
-        const client = await Services.getMailgun();
-        const params = await paramStore.getAllParams();
-        await client.messages.create(params.mailgun_domain,{
-            from: 'donotreply@' + params.mailgun_domain,
-            subject: subject,
-            to: email,
+    public static sendMessage = async (email: string,text: string, subject: string) => {
+        const client = await Services.getMailtrap();
+        await client.send({
+            from: {
+                email: "hello@demomailtrap.co",
+                name: "Mailtrap Test",
+            },
+            to: [{
+                email: email,
+            }],
             text: text,
+            subject: subject,
         });
     }
     /**

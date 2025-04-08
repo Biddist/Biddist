@@ -1,8 +1,15 @@
 import {Router} from "express";
-import {postOTP, postOTPLogin, postInitLogin, postInitSignup, postOTPSignup} from "../controllers/authController";
+import {
+    postOTP,
+    postOTPLogin,
+    postSignup,
+    postOTPSignup,
+    getCheckAuth
+} from "../controllers/authController.js";
 const authRouter = Router();
+authRouter.get("/check", getCheckAuth);
 authRouter.post('/otp',postOTP);
-authRouter.post('/login',postInitLogin);
-authRouter.post('/otp_login',postOTPSignup);
-authRouter.post('/signup',postInitSignup);
+authRouter.post('/otp_login',postOTPLogin);
+authRouter.post('/signup',postSignup);
 authRouter.post('/otp_signup',postOTPSignup);
+export { authRouter };
