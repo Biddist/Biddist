@@ -6,8 +6,7 @@ on:
 jobs:
   build_backend:
     env:
-      MAILGUN: ${{secrets.MAILGUN}}
-      MAILGUN_DOMAIN: ${{secrets.MAILGUN_DOMAIN}}
+      MAILTRAP: ${{secrets.MAILTRAP}}
       FRONTEND_DOMAIN: ${{secrets.FRONTEND_DOMAIN}}
       STRIPE: ${{secrets.STRIPE}}
       DB_CONN: ${{secrets.DB_CONN}}
